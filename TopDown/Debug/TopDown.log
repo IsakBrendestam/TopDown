@@ -1,0 +1,6 @@
+﻿  Tank.cpp
+c:\users\isakk\source\repos\topdown\topdown\math.h(19): warning C4091: 'static ': ignored on left of 'Math' when no variable is declared
+c:\users\isakk\source\repos\topdown\topdown\tank.cpp(30): warning C4018: '<': signed/unsigned mismatch
+c:\users\isakk\source\repos\topdown\topdown\tank.cpp(64): warning C4018: '<': signed/unsigned mismatch
+c:\users\isakk\source\repos\topdown\topdown\tank.cpp(82): warning C4018: '<': signed/unsigned mismatch
+  TopDown.vcxproj -> C:\Users\isakk\source\repos\TopDown\Debug\TopDown.exe
