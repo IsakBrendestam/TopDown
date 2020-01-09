@@ -25,7 +25,25 @@ float Math::DegToRad(float someDegrees)
 
 float Math::VectorLength(sf::Vector2f someVector)
 {	
-	return std::sqrt(Square(someVector.x) + Square(someVector.y));
+	return std::sqrt(std::pow(someVector.x, 2) + std::pow(someVector.y, 2));
+}
+
+float Math::DistanceBetweenPoints(sf::Vector2f someVector1, sf::Vector2f someVector2)
+{
+	sf::Vector2f tempVector;
+	tempVector = someVector2 - someVector1;
+
+	return VectorLength(tempVector);
+}
+
+sf::Vector2f Math::DirectionBetweenPoitns(sf::Vector2f someVector1, sf::Vector2f someVector2)
+{
+	sf::Vector2f tempVector;
+
+	tempVector = someVector2 - someVector1;
+
+	return NormalizeVector(tempVector);
+	
 }
 
 sf::Vector2f Math::NormalizeVector(sf::Vector2f someVector)
@@ -36,11 +54,6 @@ sf::Vector2f Math::NormalizeVector(sf::Vector2f someVector)
 	}
 
 	return someVector / VectorLength(someVector);
-}
-
-float Math::Square(float someNumber)
-{
-	return someNumber * someNumber;
 }
 
 double Math::Pi()

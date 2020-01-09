@@ -1,19 +1,29 @@
-#include "pch.h"
 #include "Bullet.h"
 #include "Math.h"
-
+#include <iostream>
 #include <SFML\Graphics.hpp>
 
 
 
-Bullet::Bullet(sf::Vector2f someStartPosition, sf::Vector2f someDirection, sf::Vector2f someScale, float someSpeed)
+Bullet::Bullet(sf::Vector2f someStartPosition, sf::Vector2f someTarget, sf::Vector2f someScale, float someSpeed, int someDamage, TypeOfBullet someBullet)
 {
-
-	myDirection = Math::NormalizeVector(someDirection - someStartPosition);
+	myAlive = true;
+	myStartPosition = someStartPosition;
+	myDamage = someDamage;
+	myDirection = Math::NormalizeVector(someTarget - someStartPosition);
 	mySpeed = someSpeed;
-	myPosition = sf::Vector2f(someStartPosition.x + (myDirection.x * 80), someStartPosition.y + (myDirection.y * 80));
+	myPosition = sf::Vector2f(someStartPosition.x + (myDirection.x * 25), someStartPosition.y + (myDirection.y * 25));
 	myWindowSize = sf::Vector2f(1500, 900);
-	myTexture.loadFromFile("Content/Bullet.png");
+	switch (someBullet)
+	{
+		case TypeOfBullet::MissileAmmo:
+			myTexture.loadFromFile("Content/Bullet.png");
+			mySprite.setColor(sf::Color::White);
+			break;
+		case TypeOfBullet::BulletAmmo:
+			myTexture.loadFromFile("Content/Missile.png");
+			break;
+	}
 
 	mySprite.setRotation(Math::DegToRad(Math::AngleBetweenPoints(sf::Vector2f(0, 0), myDirection)) - 90);
 	mySprite.setPosition(myPosition);
@@ -33,8 +43,9 @@ void Bullet::Update(float someDeltaTime)
 
 bool Bullet::OutOfWindow()
 {
-	if (myPosition.x < -50 || myPosition.x > myWindowSize.x + 50 || 
-		myPosition.y < -50 || myPosition.y > myWindowSize.y + 50)
+	float tempBoundaries = Math::DistanceBetweenPoints(myStartPosition, myPosition);
+	if (tempBoundaries > myWindowSize.x*2 || tempBoundaries < -myWindowSize.x*2 ||
+		tempBoundaries > myWindowSize.y*2 || tempBoundaries < -myWindowSize.y*2)
 	{
 		return true;
 	}
@@ -49,4 +60,9 @@ void Bullet::Draw(sf::RenderWindow &someWindow)
 	mySprite.setTexture(myTexture);
 	mySprite.setPosition(myPosition);
 	someWindow.draw(mySprite);
+}
+
+sf::Sprite Bullet::GetSprite()
+{
+	return mySprite;
 }
